@@ -4,6 +4,10 @@ const SOSS = require("./scraper.js");
 
 const route = express.Router();
 
+route.get("/", (req, res) => {
+    res.json({ test: "Test" });
+});
+
 route.get("/search", async(req, res) => {
     const { keyword } = req.query;
 

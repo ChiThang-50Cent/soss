@@ -5,7 +5,7 @@ const puppeteer = require("puppeteer");
 const getDataFromLazada = async(keyword) => {
     const browser = await puppeteer.launch({
         headless: true,
-        args: ["--no-sandbox"],
+        args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
     const page = await browser.newPage();
 
@@ -18,6 +18,8 @@ const getDataFromLazada = async(keyword) => {
         "#topActionHeader > div > div.lzd-logo-bar > div > div.lzd-nav-search > form > div > div.search-box__search--2fC5 > button";
 
     let data;
+
+    await page.waitForSelector("#q");
 
     //type keyword and click search
     await page.type("#q", keyword);
@@ -61,7 +63,12 @@ const getDataFromLazada = async(keyword) => {
 
     await browser.close();
 
-    data = [...data[0], ...data[1], ...data[2].splice(0, 20)];
+    try {
+        data = [...data[0], ...data[1], ...data[2].splice(0, 20)];
+    } catch (err) {
+        console.log(data[0]);
+        return [];
+    }
 
     return data;
 };
