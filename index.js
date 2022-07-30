@@ -18,6 +18,8 @@ app.get("/", (req, res) => {
 //api
 app.use("/api", API);
 
-app.listen((port = 5000 || process.env.PORT), () => {
-    console.log("Listen on port", port);
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+    console.log("Listen on port", PORT);
 });
