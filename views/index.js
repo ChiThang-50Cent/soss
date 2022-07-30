@@ -94,6 +94,7 @@ submitBtn.addEventListener("click", async() => {
     const shopeeChartData = getDataForChart(data.shopeeData, lable);
     const lazadaChartData = getDataForChart(data.lazadaData, lable);
 
+    //
     // console.log(lable);
     // console.log(shopeeChartData);
     // console.log(lazadaChartData);
