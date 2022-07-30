@@ -12,7 +12,9 @@ const getDataFromLazada = async(keyword) => {
     page.setDefaultNavigationTimeout(0);
 
     //open new tab and go to lazada website
-    await page.goto("https://www.lazada.vn/");
+    await page.goto("https://www.lazada.vn/", {
+        waitUntil: "networkidle2",
+    });
 
     const searchBtn =
         "#topActionHeader > div > div.lzd-logo-bar > div > div.lzd-nav-search > form > div > div.search-box__search--2fC5 > button";
