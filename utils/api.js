@@ -1,11 +1,19 @@
 const express = require("express");
+const puppeteer = require("puppeteer");
 
 const SOSS = require("./scraper.js");
 
 const route = express.Router();
 
-route.get("/", (req, res) => {
-    res.json({ test: "Test" });
+route.get("/", async(req, res) => {
+    const browser = await puppeteer.launch({
+        args: ["--no-sandbox"],
+    });
+
+    const page = await browser.newPage();
+    const text = await (await page.goto("https://google.com")).text();
+
+    res.send(text);
 });
 
 route.get("/search", async(req, res) => {
