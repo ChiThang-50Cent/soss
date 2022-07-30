@@ -1,30 +1,32 @@
 const express = require("express");
-const puppeteer = require("puppeteer");
+//const puppeteer = require("puppeteer");
 
 const SOSS = require("./scraper.js");
 
 const route = express.Router();
 
 route.get("/", async(req, res) => {
-    const browser = await puppeteer.launch({
-        args: ["--no-sandbox"],
-    });
+    // const browser = await puppeteer.launch({
+    //     args: ["--no-sandbox"],
+    // });
 
-    const page = await browser.newPage();
-    await page.goto("https://www.lazada.vn/", {
-        waitUntil: "networkidle2",
-    });
+    // const page = await browser.newPage();
+    // await page.goto("https://www.lazada.vn/", {
+    //     waitUntil: "networkidle2",
+    // });
 
-    const data = await page.evaluate(async() => {
-        const res = await fetch(
-            "/catalog/?_keyori=ss&from=input&q=quat&ajax=true&page=1"
-        );
-        const data = res.json();
+    // const data = await page.evaluate(async() => {
+    //     const res = await fetch(
+    //         "/catalog/?_keyori=ss&from=input&q=quat&ajax=true&page=1"
+    //     );
+    //     const data = res.json();
 
-        return data;
-    });
+    //     return data;
+    // });
 
-    res.json({ data: data.mods.listItems });
+    // res.json({ data: data.mods.listItems });
+
+    res.json({ test: "Text" });
 });
 
 route.get("/search", async(req, res) => {

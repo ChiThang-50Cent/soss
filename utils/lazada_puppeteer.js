@@ -2,11 +2,11 @@ const puppeteer = require("puppeteer");
 
 //Use puppeteer because we maybe have a soft ban
 //from lazada if try to get data from api url
-//
+
 const getDataFromLazada = async(keyword) => {
     const browser = await puppeteer.launch({
         headless: true,
-        args: ["--no-sandbox", "--disable-setuid-sandbox"],
+        args: ["--no-sandbox"],
     });
     const page = await browser.newPage();
 
@@ -17,44 +17,29 @@ const getDataFromLazada = async(keyword) => {
         waitUntil: "networkidle2",
     });
 
-    const searchBtn =
-        "#topActionHeader > div > div.lzd-logo-bar > div > div.lzd-nav-search > form > div > div.search-box__search--2fC5 > button";
+    await page.exposeFunction("getKeyword", (key = keyword) => {
+        return key;
+    });
 
-    await page.waitForSelector("#q");
-
-    //type keyword and click search
-    await page.type("#q", keyword);
-    await page.click(searchBtn);
-
-    await page.waitForNavigation();
-
+    let data;
     //try to get data from api
     //use evaluate to prevent banning by lazada
     //code in evaluate is like code in console of browser
-
-    let data = [];
-
     try {
         data = await page.evaluate(async() => {
-            let pageUrl = [];
-
-            const listPage = document.querySelectorAll("#root div.b7FXJ a");
-            if (!listPage.length) return pageUrl;
-
-            //Get 3 page api
-            pageUrl.push(listPage[0].href + "&page=1" + `&ajax=true`);
-            pageUrl.push(listPage[1].href + `&ajax=true`);
-            pageUrl.push(listPage[2].href + `&ajax=true`);
+            const search = await getKeyword();
+            const pageUrl = (page, key = search) =>
+                `/catalog/?_keyori=ss&from=input&q=${key}&ajax=true&page=${page}`;
 
             //fetch data from api link
             const data = await Promise.all([
-                fetch(pageUrl[0])
+                fetch(pageUrl(1))
                 .then((res) => res.json())
                 .then((data) => data.mods.listItems),
-                fetch(pageUrl[1])
+                fetch(pageUrl(2))
                 .then((res) => res.json())
                 .then((data) => data.mods.listItems),
-                fetch(pageUrl[2])
+                fetch(pageUrl(3))
                 .then((res) => res.json())
                 .then((data) => data.mods.listItems),
             ]);
