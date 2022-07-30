@@ -48,6 +48,7 @@ const getDataFromLazada = async(keyword) => {
         });
     } catch (err) {
         console.log(err.message);
+        return [];
     }
 
     await browser.close();

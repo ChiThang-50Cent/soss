@@ -26,7 +26,7 @@ route.get("/", async(req, res) => {
 
     // res.json({ data: data.mods.listItems });
 
-    res.json({ test: "Text" });
+    res.json({ shopeeData: {}, lazadaData: {} });
 });
 
 route.get("/search", async(req, res) => {

@@ -26,9 +26,16 @@ const createCanvas = () => {
     document.getElementById("chart-container").appendChild(canvas);
 };
 
-const removeCanvas = () => {
-    const canvas = document.getElementById("myChart");
-    if (canvas) document.getElementById("chart-container").removeChild(canvas);
+const removeContent = () => {
+    // const canvas = document.getElementById("myChart");
+    // if (canvas) document.getElementById("chart-container").removeChild(canvas);
+    document.getElementById("chart-container").innerHTML = "";
+};
+
+const alertError = () => {
+    document.getElementById(
+        "chart-container"
+    ).innerHTML = `<h3 class="text-primary">Something went wrong, please try again later.</h3>`;
 };
 
 const drawChart = (labels, shopeeChartData, lazadaChartData) => {
@@ -72,7 +79,7 @@ const input = document.getElementById("q");
 const spinner = document.getElementById("spinner");
 
 submitBtn.addEventListener("click", async() => {
-    removeCanvas();
+    removeContent();
 
     const time_1 = new Date().getTime();
 
@@ -90,11 +97,15 @@ submitBtn.addEventListener("click", async() => {
     const shopeeLable = Object.keys(data.shopeeData);
     const lazadaLable = Object.keys(data.lazadaData);
 
+    if (!shopeeLable.length || !lazadaLable.length) {
+        alertError();
+        return false;
+    }
+
     const lable = getLable(shopeeLable, lazadaLable);
     const shopeeChartData = getDataForChart(data.shopeeData, lable);
     const lazadaChartData = getDataForChart(data.lazadaData, lable);
 
-    //
     // console.log(lable);
     // console.log(shopeeChartData);
     // console.log(lazadaChartData);
