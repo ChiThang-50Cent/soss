@@ -2,6 +2,7 @@ const puppeteer = require("puppeteer");
 
 //Use puppeteer because we maybe have a soft ban
 //from lazada if try to get data from api url
+//
 const getDataFromLazada = async(keyword) => {
     const browser = await puppeteer.launch({
         headless: true,
