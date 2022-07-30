@@ -17,9 +17,16 @@ const shopee = async(keyword) => {
     const defaultQuery = `&by=relevancy&limit=100&newest=0&order=desc&page_type=search&scenario=PAGE_GLOBAL_SEARCH&version=2`;
     const url = urlApi + query + defaultQuery;
 
-    const res = await axios(url);
+    let data;
+    try {
+        const res = await axios(url);
 
-    const data = res.data.items;
+        data = res.data.items;
+    } catch (err) {
+        console.log(err.message);
+        data = [];
+    }
+
     const counter = new Counter();
 
     const Nobrand = ["0", "no brand", "nobrand", "none"];
