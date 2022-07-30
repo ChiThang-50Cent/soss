@@ -10,11 +10,10 @@ const getDataFromLazada = async(keyword) => {
     });
     const page = await browser.newPage();
 
-    page.setDefaultNavigationTimeout(0);
-
     //open new tab and go to lazada website
     await page.goto("https://www.lazada.vn/", {
         waitUntil: "networkidle2",
+        timeout: 0,
     });
 
     await page.exposeFunction("getKeyword", (key = keyword) => {

@@ -87,8 +87,14 @@ submitBtn.addEventListener("click", async() => {
 
     spinner.hidden = false;
 
-    const res = await fetch(`/api/search?keyword=${inputValue}`);
-    const data = await res.json();
+    let data;
+
+    try {
+        const res = await fetch(`/api/search?keyword=${inputValue}`);
+        data = await res.json();
+    } catch (err) {
+        alertError();
+    }
 
     spinner.hidden = true;
 
