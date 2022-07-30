@@ -11,9 +11,20 @@ route.get("/", async(req, res) => {
     });
 
     const page = await browser.newPage();
-    const text = await (await page.goto("https://google.com")).text();
+    await page.goto("https://www.lazada.vn/", {
+        waitUntil: "networkidle2",
+    });
 
-    res.send(text);
+    const data = await page.evaluate(async() => {
+        const res = await fetch(
+            "/catalog/?_keyori=ss&from=input&q=quat&ajax=true&page=1"
+        );
+        const data = res.json();
+
+        return data;
+    });
+
+    res.json({ data: data.mods.listItems });
 });
 
 route.get("/search", async(req, res) => {

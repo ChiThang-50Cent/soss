@@ -20,8 +20,6 @@ const getDataFromLazada = async(keyword) => {
     const searchBtn =
         "#topActionHeader > div > div.lzd-logo-bar > div > div.lzd-nav-search > form > div > div.search-box__search--2fC5 > button";
 
-    let data;
-
     await page.waitForSelector("#q");
 
     //type keyword and click search
@@ -33,6 +31,9 @@ const getDataFromLazada = async(keyword) => {
     //try to get data from api
     //use evaluate to prevent banning by lazada
     //code in evaluate is like code in console of browser
+
+    let data = [];
+
     try {
         data = await page.evaluate(async() => {
             let pageUrl = [];
