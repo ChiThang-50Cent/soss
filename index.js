@@ -10,7 +10,7 @@ app.set("views", "./views");
 
 app.use(express.json());
 
-//main web side
+//main website
 app.get("/", (req, res) => {
     res.render("index");
 });
